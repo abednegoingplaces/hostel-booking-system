@@ -53,66 +53,120 @@ Both versions use the same four tables, `users`, `hostels`, `rooms` and `booking
 
 ## Running it locally (step by step)
 
-These steps are for Windows. They work the same on macOS and Linux with that system's versions of the tools.
+Every grey box below is a command you can copy (use the copy button on the box) and paste into a terminal.
+The commands work in **PowerShell** and **Command Prompt** on Windows. macOS/Linux versions are given where they differ.
 
 ### Step 1: Install the tools (once)
 
-| Tool | Needed for | Get it | Check it works (in a new terminal) |
-|---|---|---|---|
-| XAMPP 8.2 (Apache, MySQL, PHP 8.2) | both versions | https://www.apachefriends.org/ | `php -v` shows 8.2 or newer |
-| Composer | Laravel version | https://getcomposer.org/ | `composer --version` |
-| Node.js 18 or newer | Laravel version | https://nodejs.org/ | `node -v` |
-| Git (optional) | downloading the code | https://git-scm.com/ | `git --version` |
+| Tool | Needed for | Download |
+|---|---|---|
+| XAMPP 8.2 (Apache, MySQL, PHP 8.2) | both versions | https://www.apachefriends.org/ |
+| Composer | Laravel version | https://getcomposer.org/ |
+| Node.js 18 or newer | Laravel version | https://nodejs.org/ |
+| Git | downloading the code | https://git-scm.com/ |
 
-If `php` is "not recognised", add `C:\xampp\php` to your Windows PATH, then open a **new** terminal.
+Open a **new** terminal and check that they work. Each command should print a version number:
 
-### Step 2: Get the code
+```
+php -v
+composer --version
+node -v
+git --version
+```
 
-With Git:
+If `php` is "not recognised", add `C:\xampp\php` to your Windows PATH, then open a new terminal.
 
-```bash
+### Step 2: Download the code
+
+```
 git clone https://github.com/abednegoingplaces/hostel-booking-system.git
 cd hostel-booking-system
 ```
 
-Without Git: on the GitHub page, click **Code > Download ZIP**, then unzip it.
+Run all the commands below from this `hostel-booking-system` folder unless a step says otherwise.
 
-### Step 3: Start XAMPP
+### Step 3: Start Apache and MySQL
 
-Open the **XAMPP Control Panel** (`C:\xampp\xampp-control.exe`) and click **Start** next to **Apache** and **MySQL**. Both should turn green.
+Open the **XAMPP Control Panel** and click **Start** next to **Apache** and **MySQL** (both turn green). You can open the panel with:
+
+```
+C:\xampp\xampp-control.exe
+```
 
 ### Step 4a: Run the plain PHP version
 
-1. Copy the `hostel_booking` folder into `C:\xampp\htdocs\`.
-2. Open http://localhost/phpmyadmin and click **Import**.
-3. Choose `hostel_booking/database.sql` and click **Go**. This creates the database and its tables.
-4. Import `hostel_booking/seed.sql` the same way. This adds the demo data.
-5. Open **http://localhost/hostel_booking/** and log in with a demo account (below).
+**1. Copy the site into XAMPP's web folder:**
+
+```
+xcopy /E /I /Y hostel_booking C:\xampp\htdocs\hostel_booking
+```
+
+**2. Create the database and add the demo data** (always `database.sql` first, then `seed.sql`):
+
+```
+C:\xampp\mysql\bin\mysql.exe -u root -e "source hostel_booking/database.sql"
+C:\xampp\mysql\bin\mysql.exe -u root -e "source hostel_booking/seed.sql"
+```
+
+**3. Open the site:** http://localhost/hostel_booking/ and log in with a [demo account](#demo-accounts-on-your-computer).
 
 ### Step 4b: Run the Laravel version
 
-1. In phpMyAdmin, open the **SQL** tab, run `CREATE DATABASE hostel_booking_laravel;` and click **Go**.
-2. Open a terminal in the `hostel_booking_laravel` folder and run these commands one at a time:
+**1. Create the database:**
 
-   ```bash
-   composer install             # downloads Laravel and the PHP packages
-   copy .env.example .env       # creates the settings file (macOS/Linux: cp .env.example .env)
-   php artisan key:generate     # creates the app's secret key
-   php artisan migrate --seed   # creates the tables and the demo data
-   php artisan storage:link     # lets uploaded room photos show on the site
-   npm install                  # downloads the front-end packages
-   npm run build                # builds the CSS and JavaScript for the login pages
-   php artisan serve            # starts the site
-   ```
+```
+C:\xampp\mysql\bin\mysql.exe -u root -e "CREATE DATABASE IF NOT EXISTS hostel_booking_laravel"
+```
 
-3. Open **http://127.0.0.1:8000** and log in with a demo account (below).
-4. To stop the site, press **Ctrl + C** in the terminal. Next time, you only need to start MySQL and run `php artisan serve`.
+**2. Go into the Laravel folder:**
 
-`.env.example` already points at XAMPP's MySQL (user `root`, no password). If your MySQL uses a password, put it in `DB_PASSWORD` in `.env`.
+```
+cd hostel_booking_laravel
+```
 
-### Step 5: Run the tests (optional)
+**3. Set it up (first time only).** These commands download the packages, create the settings file and secret key, build the tables and demo data, link the photo folder and build the page styles. It takes a few minutes.
 
-In the `hostel_booking_laravel` folder, run `php artisan test`. All 48 tests should pass. The tests use a temporary in-memory database, so your demo data is not touched.
+Windows:
+
+```
+composer install
+copy .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan storage:link
+npm install
+npm run build
+```
+
+macOS / Linux: the same commands, but use `cp .env.example .env` instead of the `copy` line.
+
+**4. Start the site:**
+
+```
+php artisan serve
+```
+
+**5. Open the site:** http://127.0.0.1:8000 and log in with a [demo account](#demo-accounts-on-your-computer).
+To stop the site, press **Ctrl + C** in the terminal.
+
+**Next time** you only need to start MySQL in XAMPP and run these two commands from the `hostel-booking-system` folder:
+
+```
+cd hostel_booking_laravel
+php artisan serve
+```
+
+`.env.example` already uses XAMPP's MySQL (user `root`, no password). If your MySQL has a password, put it after `DB_PASSWORD=` in the `.env` file.
+
+### Step 5: Run the automated tests (optional)
+
+From the `hostel_booking_laravel` folder:
+
+```
+php artisan test
+```
+
+All 48 tests should pass. They use a temporary in-memory database, so your demo data is not touched.
 
 ### Demo accounts (on your computer)
 
@@ -121,10 +175,23 @@ In the `hostel_booking_laravel` folder, run `php artisan test`. All 48 tests sho
 | Warden | `warden@hostel.test` | `Warden@1234` |
 | Student | `student@hostel.test` | `Student@1234` |
 
-More students: `faith@`, `kevin@` and `mercy@hostel.test`, all with the same student password.
+More students: `faith@hostel.test`, `kevin@hostel.test` and `mercy@hostel.test`, all with the student password.
 The live site uses **different passwords**, which the team keeps privately.
 
-To reset the demo data: import the two SQL files again for plain PHP, or run `php artisan migrate:fresh --seed` for Laravel.
+### Reset the demo data
+
+Plain PHP (from the `hostel-booking-system` folder):
+
+```
+C:\xampp\mysql\bin\mysql.exe -u root -e "source hostel_booking/database.sql"
+C:\xampp\mysql\bin\mysql.exe -u root -e "source hostel_booking/seed.sql"
+```
+
+Laravel (from the `hostel_booking_laravel` folder):
+
+```
+php artisan migrate:fresh --seed
+```
 
 ## Try these in the demo
 
