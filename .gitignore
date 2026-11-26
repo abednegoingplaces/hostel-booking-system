@@ -1,0 +1,12 @@
+# Course material: not ours to publish
+*Lecture Notes*.docx
+
+# Plain PHP: uploaded room photos (keep the folder's .htaccess)
+hostel_booking/uploads/rooms/*
+!hostel_booking/uploads/rooms/.htaccess
+
+# Editors and OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
