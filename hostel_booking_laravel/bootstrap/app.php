@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Behind a hosting proxy (Render) HTTPS ends at the proxy: trust its
+        // forwarded headers so asset() and route() build https:// links.
+        $middleware->trustProxies(at: '*');
+
         // Role middleware: ->middleware('role:warden') or ->middleware('role:student')
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,

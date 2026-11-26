@@ -10,3 +10,4 @@ hostel_booking/uploads/rooms/*
 .idea/
 Thumbs.db
 .DS_Store
+LIVE_LOGINS.txt

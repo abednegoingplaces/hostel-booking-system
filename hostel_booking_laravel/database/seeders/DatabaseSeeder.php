@@ -18,13 +18,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->warden()->create(['name' => 'Grace Wanjiru', 'email' => 'warden@hostel.test', 'password' => 'Warden@1234']);
+        // Already seeded (the live server runs the seeder on every start): do nothing.
+        if (User::where('email', 'warden@hostel.test')->exists()) {
+            return;
+        }
 
-        $brian = User::factory()->create(['name' => 'Brian Otieno', 'email' => 'student@hostel.test', 'password' => 'Student@1234']);
-        $faith = User::factory()->create(['name' => 'Faith Achieng', 'email' => 'faith@hostel.test', 'password' => 'Student@1234']);
-        $kevin = User::factory()->create(['name' => 'Kevin Mwangi', 'email' => 'kevin@hostel.test', 'password' => 'Student@1234']);
-        $mercy = User::factory()->create(['name' => 'Mercy Chebet', 'email' => 'mercy@hostel.test', 'password' => 'Student@1234']);
-        User::factory(5)->create(['password' => 'Student@1234']); // extra students from the factory
+        // The live site sets its own passwords in DEMO_WARDEN_PASSWORD / DEMO_STUDENT_PASSWORD.
+        $wardenPassword = env('DEMO_WARDEN_PASSWORD', 'Warden@1234');
+        $studentPassword = env('DEMO_STUDENT_PASSWORD', 'Student@1234');
+
+        User::factory()->warden()->create(['name' => 'Grace Wanjiru', 'email' => 'warden@hostel.test', 'password' => $wardenPassword]);
+
+        $brian = User::factory()->create(['name' => 'Brian Otieno', 'email' => 'student@hostel.test', 'password' => $studentPassword]);
+        $faith = User::factory()->create(['name' => 'Faith Achieng', 'email' => 'faith@hostel.test', 'password' => $studentPassword]);
+        $kevin = User::factory()->create(['name' => 'Kevin Mwangi', 'email' => 'kevin@hostel.test', 'password' => $studentPassword]);
+        $mercy = User::factory()->create(['name' => 'Mercy Chebet', 'email' => 'mercy@hostel.test', 'password' => $studentPassword]);
+        User::factory(5)->create(['password' => $studentPassword]); // extra students from the factory
 
         $mtKenya = Hostel::create(['name' => 'Mt Kenya Hall', 'location' => 'Main Campus, Block A', 'gender' => 'male', 'description' => 'Close to the library and the dining hall.']);
         $nyandarua = Hostel::create(['name' => 'Nyandarua Hall', 'location' => 'Main Campus, Block C', 'gender' => 'female', 'description' => 'Quiet hostel with a study room on every floor.']);
