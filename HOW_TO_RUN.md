@@ -84,6 +84,19 @@ On this PC everything is already set up:
 
 ---
 
+## C. Live site
+
+The Laravel version is online at **https://group27-hostel-booking.onrender.com**.
+
+- **Hosting:** Render, free plan, Docker (`hostel_booking_laravel/Dockerfile`), region Frankfurt. Every push to `main` on GitHub redeploys it automatically.
+- **Database:** Neon Postgres, project `group27-hostel-booking` in the Abeddy organisation. The connection string is stored only in Render's `DB_URL` setting.
+- **Logins:** the same emails as below, but with different passwords, kept in `LIVE_LOGINS.txt` in this folder. That file is not in Git.
+- **Before presenting:** open the site about 2 minutes early. A free server that has been idle for 15 minutes takes up to a minute to wake up.
+- **Limits:** room photos uploaded on the live site are lost when the server restarts (the free disk is temporary). The demo data in the database stays.
+- **Start-up:** `docker/start.sh` caches config, runs migrations, and seeds the demo data only if it isn't there yet.
+
+---
+
 ## Where each Week 14 requirement lives (Laravel version)
 
 Use this table for the code walkthrough part of the presentation.
@@ -101,7 +114,7 @@ Use this table for the code walkthrough part of the presentation.
 | Security | `@csrf` in every form, `{{ }}` escaping, `$fillable` (role and status are not fillable), Eloquent only |
 | JSON API | `routes/api.php` → `GET /api/rooms`, `app/Http/Resources/RoomResource.php` |
 | Seeders and factories | `database/seeders/DatabaseSeeder.php`, `database/factories/*` |
-| Deployment plan | `.env.production.example` |
+| Deployment | Live on Render: https://group27-hostel-booking.onrender.com (`Dockerfile`, `docker/start.sh`, `.env.production.example`) |
 
 The booking rules (the part most worth explaining):
 
