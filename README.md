@@ -1,4 +1,4 @@
-# Hostel Booking System (BICT 216, Group 27)
+# Hostel Booking System (Computer Science, Group 27)
 
 Students book hostel rooms online; the warden manages hostels and rooms and approves or rejects bookings.
 The same system is built twice:

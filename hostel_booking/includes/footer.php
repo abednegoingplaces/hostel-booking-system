@@ -1,6 +1,6 @@
 </main>
 <footer class="wrap footer muted">
-    BICT 216 Group Project · Hostel Booking System (plain PHP version)
+    Group 27 · Hostel Booking System (plain PHP version)
 </footer>
 </body>
 </html>

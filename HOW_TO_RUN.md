@@ -47,7 +47,7 @@ On this PC everything is already set up:
 2. Open a terminal in the project:
 
    ```
-   cd "C:\Users\Admin\Academics\Projects\BICT 216 Group Project\hostel_booking_laravel"
+   cd "C:\Users\Admin\Academics\Projects\Group 27 Hostel Booking\hostel_booking_laravel"
    php artisan serve
    ```
 
