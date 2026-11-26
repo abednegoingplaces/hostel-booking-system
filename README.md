@@ -210,6 +210,7 @@ php artisan migrate:fresh --seed
 | Laravel: "Vite manifest not found" | Run `npm install` and then `npm run build`. |
 | Laravel: "419 Page Expired" | The form sat open too long. Refresh the page and try again. |
 | Laravel: port 8000 already in use | Run `php artisan serve --port=8010` and open http://127.0.0.1:8010 |
+| `npm install` fails with "TAR_ENTRY_ERROR" or "EPERM" | The folder path is too long for Windows. Clone into a short path such as `C:\Projects` and try again. |
 | Room photos don't show | Run `php artisan storage:link` (Laravel). For plain PHP, check that `uploads/rooms/` exists. |
 
 ## Project structure
